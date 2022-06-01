@@ -9,13 +9,16 @@
 typedef struct {
     int x, y;
     int vx, vy;
+    int color;
 } Particle;
 
 void moveCursor(int x, int y) { printf("\033[%d;%df", y, x); }
 
-void particle(int x, int y) {
+void particle(int x, int y, int color) {
     moveCursor(x, y);
-    printf("*\n");
+    char material = '*';
+    printf("\e[1;%dm%c\e[0m", color, material);
+    printf("\n");
 }
 
 int main() {
@@ -34,13 +37,14 @@ int main() {
         particles[i].y = 1 + rand() % lines;
         particles[i].vx = 1 + rand() % 2;
         particles[i].vy = 1 + rand() % 2;
+        particles[i].color = 30 + rand() % 8;
     }
 
     while (1) {
         system("clear");
 
         for (i = 0; i < qtdParticles; i++) {
-            particle(particles[i].x, particles[i].y);
+            particle(particles[i].x, particles[i].y, particles[i].color);
         }
 
         for (i = 0; i < qtdParticles; i++) {
